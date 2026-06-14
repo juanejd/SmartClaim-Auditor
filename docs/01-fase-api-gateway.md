@@ -3,7 +3,7 @@
 > **Layer 1 of 5.** This is the front door of the entire system. Everything else
 > depends on this layer producing a clean, validated claim object.
 
-**Prerequisite reading:** [`00-overview.md`](./00-overview.md) §4 (data contracts).
+**Prerequisite reading:** `[00-overview.md](./00-overview.md)` §4 (data contracts).
 
 ---
 
@@ -15,10 +15,11 @@ Its single responsibility: **accept a claim, validate it, give it an identity, a
 hand a guaranteed-valid object to the rest of the pipeline.**
 
 In FastAPI, this is built on two pillars:
+
 - **Pydantic models** — declarative validation. You describe the shape; FastAPI
-  rejects anything that doesn't match with an automatic `422`.
+rejects anything that doesn't match with an automatic `422`.
 - **ASGI / async** — the server can handle the request without blocking while
-  downstream work happens.
+downstream work happens.
 
 ---
 
@@ -33,9 +34,10 @@ not after 4 seconds of pointless pipeline work. The gateway is your bouncer. It
 checks IDs at the door so the expensive club inside never deals with troublemakers.
 
 This maps directly to **RF-01**:
+
 > `POST /api/claims` returns `202 + claim_id` in < 200ms; `422` for invalid schema.
 
-Note the **`202 Accepted`**, not `200 OK`. That is deliberate: `202` means "I have
+Note the `**202 Accepted`**, not `200 OK`. That is deliberate: `202` means "I have
 accepted this for processing", which is the honest semantic for a pipeline that may
 process asynchronously. Detail matters.
 
@@ -44,6 +46,7 @@ process asynchronously. Detail matters.
 ## What to build
 
 ### 1. Project structure (move beyond `main.py`)
+
 The current `backend/main.py` is the FastAPI tutorial stub. Replace it with a real,
 layered structure. Suggested:
 
@@ -68,20 +71,23 @@ backend/
 > does (claims, audit), not what framework it uses. You will thank yourself in Layer 4.
 
 ### 2. The request/response contract
-Define Pydantic models that match [`00-overview.md`](./00-overview.md) §4:
+
+Define Pydantic models that match `[00-overview.md](./00-overview.md)` §4:
 
 - **Request** (`ClaimRequest`): `complaint_text: str`, `contract_clauses: str`.
-  Add validation: `complaint_text` must be non-empty, min length (e.g. 10 chars).
+Add validation: `complaint_text` must be non-empty, min length (e.g. 10 chars).
 - **Response** (`ClaimAccepted`): `claim_id: str` (UUID), `status: str`,
-  `received_at: datetime`.
+`received_at: datetime`.
 
 ### 3. The endpoint
+
 - `POST /api/claims` → validate → generate `claim_id` (UUID) → store → return
-  `202` with `ClaimAccepted`.
+`202` with `ClaimAccepted`.
 - Let FastAPI's automatic validation produce the `422` for free. Do **not**
-  hand-roll validation that Pydantic already does.
+hand-roll validation that Pydantic already does.
 
 ### 4. Persistence (start simple)
+
 Per the core doc, persistence is **SQLite / JSON files** (university scope). Start
 with an **in-memory dict** behind a `claim_store` service interface. Why an interface?
 So you can swap in SQLite later without touching the route (RNF-04 thinking applies
@@ -105,8 +111,8 @@ Run with: `uv run pytest`. Use FastAPI's `TestClient` (Starlette) — no live se
 
 ## Definition of Done ✅
 
-- [ ] `POST /api/claims` accepts a valid claim and returns **`202` + a unique `claim_id`**.
-- [ ] Invalid payloads (missing/empty required fields) return **`422`** with a clear error body.
+- [ ] `POST /api/claims` accepts a valid claim and returns `**202` + a unique `claim_id`**.
+- [ ] Invalid payloads (missing/empty required fields) return `**422*`* with a clear error body.
 - [ ] Response time for ingestion is **< 200ms** (trivial at this stage — no models loaded).
 - [ ] A claim, once accepted, can be retrieved by `claim_id` (`GET /api/claims/{id}`).
 - [ ] Auto-generated Swagger docs at `/docs` show the endpoint with correct schemas.
@@ -118,26 +124,28 @@ Run with: `uv run pytest`. Use FastAPI's `TestClient` (Starlette) — no live se
 ## Gotchas (learn these now, not at 2am)
 
 - **CORS.** The Next.js frontend (Layer 5) runs on a different port (`:3000`) than
-  FastAPI (`:8000`). Without `CORSMiddleware`, the browser will silently block
-  requests. Add it now or remember this when Layer 5 "mysteriously" can't reach the API.
-- **`202` vs `200`.** FastAPI defaults to `200`. You must set
-  `status_code=status.HTTP_202_ACCEPTED` explicitly on the route.
+FastAPI (`:8000`). Without `CORSMiddleware`, the browser will silently block
+requests. Add it now or remember this when Layer 5 "mysteriously" can't reach the API.
+- `**202` vs `200`.** FastAPI defaults to `200`. You must set
+`status_code=status.HTTP_202_ACCEPTED` explicitly on the route.
 - **UUIDs are strings over the wire.** Generate with `uuid.uuid4()`, serialize as
-  `str`. Keep the type consistent in your Pydantic model.
+`str`. Keep the type consistent in your Pydantic model.
 - **Don't store business logic in the route.** The route orchestrates; the service
-  stores. Keep the route thin — it will need to call Layers 2–4 later.
+stores. Keep the route thin — it will need to call Layers 2–4 later.
 - **Use `uv add`, not `pip install`.** The project uses `uv` with a lockfile.
-  Bypassing it desyncs `uv.lock`.
+Bypassing it desyncs `uv.lock`.
 
 ---
 
 ## Dependencies to add
 
 Already present: `fastapi`, `uvicorn`. You likely need:
+
 ```bash
 uv add "uvicorn[standard]"   # if you want auto-reload + better perf
 # pydantic comes transitively with fastapi (v2)
 ```
+
 Nothing AI-related yet. Keep this layer lean.
 
 ---
@@ -145,8 +153,9 @@ Nothing AI-related yet. Keep this layer lean.
 ## What this unlocks
 
 Once Layer 1 returns a validated claim object, **Layer 2 (Classifier)** has a clean,
-typed input to consume. You are ready for [`02-fase-classifier.md`](./02-fase-classifier.md).
+typed input to consume. You are ready for `[02-fase-classifier.md](./02-fase-classifier.md)`.
 
 ---
 
-### Prev: [`00-overview.md`](./00-overview.md) · Next: [`02-fase-classifier.md`](./02-fase-classifier.md)
+### Prev: `[00-overview.md](./00-overview.md)` · Next: `[02-fase-classifier.md](./02-fase-classifier.md)`
+
