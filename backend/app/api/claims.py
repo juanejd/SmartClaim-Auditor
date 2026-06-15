@@ -7,7 +7,7 @@ from app.models.claim import ClaimAccepted, Claim, CreateClaim
 
 
 from app.db.database import SessionDep
-
+from app.ml.classifier import classify
 
 router = APIRouter(prefix="/api/claims", tags=["claims"])
 
@@ -17,28 +17,29 @@ router = APIRouter(prefix="/api/claims", tags=["claims"])
     status_code=status.HTTP_202_ACCEPTED,
     response_model=ClaimAccepted,
 )
-async def submit_claim(
-    claim_request: CreateClaim, session: SessionDep
-) -> ClaimAccepted:
+def submit_claim(claim_request: CreateClaim, session: SessionDep) -> ClaimAccepted:
     claim_id = str(uuid.uuid4())
     received_at = datetime.now(tz=timezone.utc)
+
+    classification = classify(claim_request.complaint_text)
 
     ingested = Claim(
         claim_id=claim_id,
         complaint_text=claim_request.complaint_text,
         contract_clauses=claim_request.contract_clauses,
         received_at=received_at,
+        status=classification.status,
+        intent_label=classification.label,
+        confidence=classification.confidence,
     )
 
-    claim_dict = claim_request.model_dump()
-    print("claim_dict", claim_dict)
     session.add(ingested)
     session.commit()
     session.refresh(ingested)
 
     return ClaimAccepted(
         claim_id=claim_id,
-        status="ACCEPTED",
+        status=classification.status,
         received_at=received_at,
     )
 

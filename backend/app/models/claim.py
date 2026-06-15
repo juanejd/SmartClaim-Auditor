@@ -22,4 +22,7 @@ class CreateClaim(ClaimBase):
 
 class Claim(ClaimBase, table=True):
     claim_id: str | None = Field(default=None, primary_key=True)
+    status: str = Field(default="RECEIVED")
+    intent_label: str | None = Field(default=None)
+    confidence: float | None = Field(default=None)
     received_at: datetime

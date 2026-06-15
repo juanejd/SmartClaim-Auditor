@@ -1,2 +1,3 @@
 ALLOWED_ORIGINS: list[str] = ["http://localhost:3000"]
 COMPLAINT_TEXT_MIN_LENGTH: int = 10
+CLASSIFIER_THRESHOLD: float = 0.7
