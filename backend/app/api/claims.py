@@ -8,6 +8,7 @@ from app.models.claim import ClaimAccepted, Claim, CreateClaim
 
 from app.db.database import SessionDep
 from app.ml.classifier import classify
+from app.rag.retriever import retrieve
 
 router = APIRouter(prefix="/api/claims", tags=["claims"])
 
@@ -23,6 +24,11 @@ def submit_claim(claim_request: CreateClaim, session: SessionDep) -> ClaimAccept
 
     classification = classify(claim_request.complaint_text)
 
+    rag_chunks = None
+    if classification.status == "CLASSIFIED":
+        raw_chunks = retrieve(claim_request.complaint_text)
+        rag_chunks = [chunk.model_dump() for chunk in raw_chunks]
+
     ingested = Claim(
         claim_id=claim_id,
         complaint_text=claim_request.complaint_text,
@@ -31,6 +37,7 @@ def submit_claim(claim_request: CreateClaim, session: SessionDep) -> ClaimAccept
         status=classification.status,
         intent_label=classification.label,
         confidence=classification.confidence,
+        rag_chunks=rag_chunks,
     )
 
     session.add(ingested)
@@ -39,6 +46,8 @@ def submit_claim(claim_request: CreateClaim, session: SessionDep) -> ClaimAccept
 
     return ClaimAccepted(
         claim_id=claim_id,
+        intent_label=classification.label,
+        confidence=classification.confidence,
         status=classification.status,
         received_at=received_at,
     )

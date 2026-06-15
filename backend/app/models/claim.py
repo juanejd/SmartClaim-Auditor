@@ -1,8 +1,16 @@
 from datetime import datetime
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field
+from sqlalchemy import Column, JSON
 
 from app.core.config import COMPLAINT_TEXT_MIN_LENGTH
+
+
+class RagChunk(BaseModel):
+    text: str
+    source_section: str
+    page: int
+    score: float
 
 
 class ClaimBase(SQLModel):
@@ -12,6 +20,8 @@ class ClaimBase(SQLModel):
 
 class ClaimAccepted(BaseModel):
     claim_id: str
+    intent_label: str
+    confidence: float
     status: str
     received_at: datetime
 
@@ -26,3 +36,4 @@ class Claim(ClaimBase, table=True):
     intent_label: str | None = Field(default=None)
     confidence: float | None = Field(default=None)
     received_at: datetime
+    rag_chunks: list[dict] | None = Field(default=None, sa_column=Column(JSON))
