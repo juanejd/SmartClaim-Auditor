@@ -73,6 +73,27 @@ def test_get_claim_returns_stored_claim():
     assert body["contract_clauses"] == VALID_PAYLOAD["contract_clauses"]
 
 
+def test_get_claim_excludes_rag_chunks():
+    post_response = client.post("/api/claims", json=VALID_PAYLOAD)
+    claim_id = post_response.json()["claim_id"]
+
+    get_response = client.get(f"/api/claims/{claim_id}")
+    assert get_response.status_code == 200
+    assert "rag_chunks" not in get_response.json()
+
+
+def test_get_claim_received_at_is_utc():
+    post_response = client.post("/api/claims", json=VALID_PAYLOAD)
+    claim_id = post_response.json()["claim_id"]
+
+    get_response = client.get(f"/api/claims/{claim_id}")
+    assert get_response.status_code == 200
+    received_at = get_response.json()["received_at"]
+    assert received_at.endswith("+00:00") or received_at.endswith("Z"), (
+        f"received_at is not UTC-aware: {received_at}"
+    )
+
+
 def test_get_unknown_claim_returns_404():
     response = client.get("/api/claims/00000000-0000-0000-0000-000000000000")
     assert response.status_code == 404

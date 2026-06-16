@@ -1,10 +1,19 @@
 import pytest
+import app.rag.retriever as retriever_module
 from pathlib import Path
 from unittest.mock import patch
 from langchain_community.vectorstores import FAISS
 from app.rag.embeddings import NormalizedMiniLMEmbeddings
 from app.rag.retriever import retrieve
 from app.models.claim import RagChunk
+
+
+@pytest.fixture(autouse=True)
+def reset_vectorstore_singleton():
+    original = retriever_module._vectorstore
+    retriever_module._vectorstore = None
+    yield
+    retriever_module._vectorstore = original
 
 
 @pytest.fixture
@@ -62,4 +71,13 @@ def test_scores_in_cosine_range(mock_index_and_metadata):
         results = retrieve("refund policies", k=3)
 
         for r in results:
-            assert 0.0 <= r.score <= 2.01  # L2 distance of normalized vectors is [0, 2]
+            assert 0.0 <= r.score <= 1.0
+
+
+def test_best_match_score_near_one(mock_index_and_metadata):
+    index_path, texts, embeddings = mock_index_and_metadata
+
+    with patch("app.rag.retriever.FAISS_INDEX_PATH", str(index_path)):
+        results = retrieve("refund policies", k=1)
+
+        assert results[0].score >= 0.9

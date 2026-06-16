@@ -7,15 +7,19 @@ from app.rag.chunking import get_text_splitter
 from app.rag.embeddings import NormalizedMiniLMEmbeddings
 
 
+def _save_empty_index(output_dir: Path) -> None:
+    embeddings = NormalizedMiniLMEmbeddings()
+    vectorstore = FAISS.from_texts(["__empty__"], embeddings)
+    vectorstore.save_local(str(output_dir))
+
+
 def build_index(pdf_dir: Path, output_dir: Path):
     # cargar todos los pdfs
     loader = DirectoryLoader(str(pdf_dir), glob="**/*.pdf", loader_cls=PyPDFLoader)
     docs = loader.load()
 
     if not docs:
-        embeddings = NormalizedMiniLMEmbeddings()
-        vectorstore = FAISS.from_texts(["__empty__"], embeddings)
-        vectorstore.save_local(str(output_dir))
+        _save_empty_index(output_dir)
         return
 
     # verificar de que archivo y pagina proviene
@@ -31,9 +35,7 @@ def build_index(pdf_dir: Path, output_dir: Path):
     splits = splitter.split_documents(docs)
 
     if not splits:
-        embeddings = NormalizedMiniLMEmbeddings()
-        vectorstore = FAISS.from_texts(["__empty__"], embeddings)
-        vectorstore.save_local(str(output_dir))
+        _save_empty_index(output_dir)
         return
 
     embeddings = NormalizedMiniLMEmbeddings()

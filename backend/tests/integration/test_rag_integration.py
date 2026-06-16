@@ -1,9 +1,11 @@
 from fastapi.testclient import TestClient
 from unittest.mock import patch
+from sqlmodel import Session
 
 from app.main import app
+from app.db.database import engine
 from app.ml.classifier import ClassificationResult
-from app.models.claim import RagChunk
+from app.models.claim import RagChunk, Claim
 
 client = TestClient(app)
 
@@ -27,16 +29,19 @@ def test_rag_integration_with_classified_claim(mock_retrieve, mock_classify):
     response = client.post("/api/claims", json=VALID_PAYLOAD)
     assert response.status_code == 202
 
-    # Check the persisted claim
     claim_id = response.json()["claim_id"]
+
     get_res = client.get(f"/api/claims/{claim_id}")
     assert get_res.status_code == 200
-    saved = get_res.json()
+    assert "rag_chunks" not in get_res.json()
+    assert get_res.json()["status"] == "CLASSIFIED"
 
-    assert saved["status"] == "CLASSIFIED"
-    assert "rag_chunks" in saved
-    assert len(saved["rag_chunks"]) == 2
-    assert saved["rag_chunks"][0]["text"] == "Chunk 1"
+    with Session(engine) as session:
+        saved = session.get(Claim, claim_id)
+    assert saved.status == "CLASSIFIED"
+    assert saved.rag_chunks is not None
+    assert len(saved.rag_chunks) == 2
+    assert saved.rag_chunks[0]["text"] == "Chunk 1"
 
 
 @patch("app.api.claims.classify")
@@ -52,8 +57,8 @@ def test_low_confidence_skips_rag(mock_retrieve, mock_classify):
     mock_retrieve.assert_not_called()
 
     claim_id = response.json()["claim_id"]
-    get_res = client.get(f"/api/claims/{claim_id}")
-    saved = get_res.json()
 
-    assert saved["status"] == "LOW_CONFIDENCE"
-    assert saved["rag_chunks"] is None
+    with Session(engine) as session:
+        saved = session.get(Claim, claim_id)
+    assert saved.status == "LOW_CONFIDENCE"
+    assert saved.rag_chunks is None

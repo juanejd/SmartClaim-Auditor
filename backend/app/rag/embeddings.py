@@ -15,28 +15,23 @@ def get_model() -> SentenceTransformer:
     return _model
 
 
+def _encode_normalized(texts: list[str]) -> np.ndarray:
+    model = get_model()
+    embeddings = model.encode(texts, convert_to_numpy=True)
+
+    if not isinstance(embeddings, np.ndarray):
+        embeddings = np.array(embeddings)
+    faiss.normalize_L2(embeddings)
+    return embeddings
+
+
 class NormalizedMiniLMEmbeddings(Embeddings):
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
-        model = get_model()
-        embeddings = model.encode(texts, convert_to_numpy=True)
-
-        if not isinstance(embeddings, np.ndarray):
-            embeddings = np.array(embeddings)
-        faiss.normalize_L2(embeddings)
-        return embeddings.tolist()
+        return _encode_normalized(texts).tolist()
 
     def embed_query(self, text: str) -> list[float]:
         return self.embed_documents([text])[0]
 
 
 def embed_texts(texts: list[str]) -> np.ndarray:
-    model = get_model()
-    embeddings = model.encode(texts, convert_to_numpy=True)
-
-    if isinstance(embeddings, np.ndarray):
-        faiss.normalize_L2(embeddings)
-        return embeddings
-    else:
-        emb = np.array(embeddings)
-        faiss.normalize_L2(emb)
-        return emb
+    return _encode_normalized(texts)

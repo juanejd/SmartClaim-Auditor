@@ -3,7 +3,7 @@ from langchain_community.vectorstores import FAISS
 
 from app.rag.embeddings import NormalizedMiniLMEmbeddings
 from app.models.claim import RagChunk
-from app.core.config import FAISS_INDEX_PATH
+from app.core.config import FAISS_INDEX_PATH, RAG_TOP_K
 
 _vectorstore = None
 
@@ -25,7 +25,7 @@ def _load_data():
             _vectorstore = None
 
 
-def retrieve(text: str, k: int = 2) -> list[RagChunk]:
+def retrieve(text: str, k: int = RAG_TOP_K) -> list[RagChunk]:
 
     _load_data()
 
@@ -36,13 +36,14 @@ def retrieve(text: str, k: int = 2) -> list[RagChunk]:
     results_with_score = _vectorstore.similarity_search_with_score(text, k=k)
 
     results = []
-    for doc, score in results_with_score:
+    for doc, distance in results_with_score:
+        similarity = max(0.0, min(1.0, 1.0 - float(distance) / 2.0))
         results.append(
             RagChunk(
                 text=doc.page_content,
                 source_section=doc.metadata.get("source_section", "unknown"),
                 page=doc.metadata.get("page", 0),
-                score=float(score),
+                score=similarity,
             )
         )
 

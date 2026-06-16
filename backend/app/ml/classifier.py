@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from transformers import pipeline
+
 from app.ml.labels import MODEL_LABELS, LABEL_MAPPING
 from app.core.config import CLASSIFIER_THRESHOLD
 
@@ -12,16 +13,20 @@ class ClassificationResult(BaseModel):
 
 MODEL_NAME = "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli"
 
-classifier_pipeline = pipeline("zero-shot-classification", model=MODEL_NAME)
+_pipeline = None
 
-classifier_pipeline(
-    "Este es un texto de prueba para el calentamiento.", candidate_labels=MODEL_LABELS
-)
+
+def get_classifier():
+    global _pipeline
+    if _pipeline is None:
+        _pipeline = pipeline("zero-shot-classification", model=MODEL_NAME)
+    return _pipeline
 
 
 def classify(text: str) -> ClassificationResult:
+    classifier = get_classifier()
     # el modelo recibe etiquetas en espa;ol
-    result = classifier_pipeline(text, candidate_labels=MODEL_LABELS)
+    result = classifier(text, candidate_labels=MODEL_LABELS)
 
     print("Result: ", result)
     """
