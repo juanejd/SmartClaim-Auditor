@@ -1,6 +1,5 @@
 import pytest
 import app.rag.retriever as retriever_module
-from pathlib import Path
 from unittest.mock import patch
 from langchain_community.vectorstores import FAISS
 from app.rag.embeddings import NormalizedMiniLMEmbeddings

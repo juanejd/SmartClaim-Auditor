@@ -2,6 +2,11 @@
 .atl/
 .agents
 
+.env
+backend/.env
+
+*.sqlite3
+
 # RAG Index
 backend/app/data/index/*.faiss
 backend/app/data/index/*.pkl

@@ -1,5 +1,5 @@
 from app.rag.chunking import chunk_text
-from app.core.config import RAG_CHUNK_SIZE, RAG_CHUNK_OVERLAP
+from app.core.config import RAG_CHUNK_SIZE
 
 def test_chunk_text_splits_correctly():
     # Create a dummy text that is 3 times the chunk size minus some overlap
