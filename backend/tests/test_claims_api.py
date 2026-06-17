@@ -125,3 +125,151 @@ def test_post_claim_halts_on_low_confidence(mock_classify):
     assert response.status_code == 202
     body = response.json()
     assert body["status"] == "LOW_CONFIDENCE"
+
+
+# ---------------------------------------------------------------------------
+# Phase E — audit wiring tests
+# ---------------------------------------------------------------------------
+
+_AUDIT_RESULT = {
+    "complaint_text": VALID_PAYLOAD["complaint_text"],
+    "contract_clauses": VALID_PAYLOAD["contract_clauses"],
+    "rag_chunks": ["The compressor is covered for 12 months under clause 5."],
+    "draft_verdict": "APPROVED",
+    "draft_justification": "Compressor failure within warranty period.",
+    "corrections_applied": False,
+    "final_verdict": "APPROVED",
+    "final_justification": "Confirmed: compressor within 12-month warranty.",
+    "rag_citation": "The compressor is covered for 12 months",
+}
+
+
+@patch("app.api.claims.run_audit", return_value=_AUDIT_RESULT)
+@patch("app.api.claims.retrieve")
+@patch("app.api.claims.classify")
+def test_post_claim_invokes_run_audit_when_classified(
+    mock_classify, mock_retrieve, mock_run_audit
+):
+    from app.models.claim import RagChunk
+
+    mock_classify.return_value = ClassificationResult(
+        label="MECHANICAL_FAILURE", confidence=0.9, status="CLASSIFIED"
+    )
+    mock_retrieve.return_value = [
+        RagChunk(
+            text="The compressor is covered for 12 months under clause 5.",
+            source_section="Warranty",
+            page=1,
+            score=0.95,
+        )
+    ]
+
+    response = client.post("/api/claims", json=VALID_PAYLOAD)
+    assert response.status_code == 202
+
+    # run_audit must have been called exactly once with the correct kwargs
+    mock_run_audit.assert_called_once()
+    call_kwargs = mock_run_audit.call_args.kwargs
+    assert call_kwargs["complaint_text"] == VALID_PAYLOAD["complaint_text"]
+    assert call_kwargs["contract_clauses"] == VALID_PAYLOAD["contract_clauses"]
+    assert isinstance(call_kwargs["rag_chunks"], list)
+    assert len(call_kwargs["rag_chunks"]) == 1
+    assert isinstance(call_kwargs["rag_chunks"][0], str)
+
+    # GET the claim and verify status + all 6 audit fields
+    claim_id = response.json()["claim_id"]
+    get_res = client.get(f"/api/claims/{claim_id}")
+    saved = get_res.json()
+    assert saved["status"] == "AUDITED"
+    assert saved["draft_verdict"] == "APPROVED"
+    assert saved["draft_justification"] is not None
+    assert saved["corrections_applied"] is False
+    assert saved["final_verdict"] == "APPROVED"
+    assert saved["final_justification"] is not None
+    assert saved["rag_citation"] is not None
+
+
+@patch("app.api.claims.run_audit", return_value=_AUDIT_RESULT)
+@patch("app.api.claims.retrieve")
+@patch("app.api.claims.classify")
+def test_post_claim_status_audited_on_success(
+    mock_classify, mock_retrieve, mock_run_audit
+):
+    from app.models.claim import RagChunk
+
+    mock_classify.return_value = ClassificationResult(
+        label="MECHANICAL_FAILURE", confidence=0.9, status="CLASSIFIED"
+    )
+    mock_retrieve.return_value = [
+        RagChunk(
+            text="The compressor is covered for 12 months under clause 5.",
+            source_section="Warranty",
+            page=1,
+            score=0.95,
+        )
+    ]
+
+    response = client.post("/api/claims", json=VALID_PAYLOAD)
+    assert response.status_code == 202
+
+    # POST response is still a lightweight ClaimAccepted — no audit detail
+    body = response.json()
+    assert "claim_id" in body
+    assert "status" in body
+    assert "draft_verdict" not in body
+    assert "final_verdict" not in body
+
+    # Audit fields visible only via GET
+    claim_id = body["claim_id"]
+    saved = client.get(f"/api/claims/{claim_id}").json()
+    assert saved["status"] == "AUDITED"
+
+
+@patch("app.api.claims.run_audit", side_effect=RuntimeError("Groq unavailable"))
+@patch("app.api.claims.retrieve")
+@patch("app.api.claims.classify")
+def test_post_claim_audit_failure_does_not_advance_status(
+    mock_classify, mock_retrieve, mock_run_audit
+):
+    from app.models.claim import RagChunk
+
+    mock_classify.return_value = ClassificationResult(
+        label="MECHANICAL_FAILURE", confidence=0.9, status="CLASSIFIED"
+    )
+    mock_retrieve.return_value = [
+        RagChunk(
+            text="Compressor covered for 12 months.",
+            source_section="Warranty",
+            page=1,
+            score=0.9,
+        )
+    ]
+
+    # POST must still return 202 — the claim is saved even when audit fails
+    response = client.post("/api/claims", json=VALID_PAYLOAD)
+    assert response.status_code == 202
+
+    claim_id = response.json()["claim_id"]
+    saved = client.get(f"/api/claims/{claim_id}").json()
+
+    # Status must NOT be AUDITED when the audit graph raised
+    assert saved["status"] != "AUDITED"
+    # All 6 audit fields must be null — no fabricated values
+    assert saved["draft_verdict"] is None
+    assert saved["draft_justification"] is None
+    assert saved["corrections_applied"] is None
+    assert saved["final_verdict"] is None
+    assert saved["final_justification"] is None
+    assert saved["rag_citation"] is None
+
+
+@patch("app.api.claims.classify")
+def test_post_claim_run_audit_not_called_when_low_confidence(mock_classify):
+    mock_classify.return_value = ClassificationResult(
+        label="OTHER", confidence=0.55, status="LOW_CONFIDENCE"
+    )
+
+    with patch("app.api.claims.run_audit") as mock_run_audit:
+        response = client.post("/api/claims", json=VALID_PAYLOAD)
+        assert response.status_code == 202
+        mock_run_audit.assert_not_called()

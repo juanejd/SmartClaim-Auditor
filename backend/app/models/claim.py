@@ -54,6 +54,13 @@ class Claim(ClaimBase, table=True):
     )
     rag_chunks: list[dict] | None = Field(default=None, sa_column=Column(JSON))
 
+    draft_verdict: str | None = Field(default=None)
+    draft_justification: str | None = Field(default=None)
+    corrections_applied: bool | None = Field(default=None)
+    final_verdict: str | None = Field(default=None)
+    final_justification: str | None = Field(default=None)
+    rag_citation: str | None = Field(default=None)
+
 
 class ClaimRead(_ReceivedAtMixin):
     claim_id: str
@@ -62,5 +69,11 @@ class ClaimRead(_ReceivedAtMixin):
     status: str
     intent_label: str | None
     confidence: float | None
+    draft_verdict: str | None = None
+    draft_justification: str | None = None
+    corrections_applied: bool | None = None
+    final_verdict: str | None = None
+    final_justification: str | None = None
+    rag_citation: str | None = None
 
     model_config = {"from_attributes": True}
