@@ -8,9 +8,9 @@ backend/.env
 *.sqlite3
 
 # RAG Index
-# backend/app/data/index/*.faiss
-# backend/app/data/index/*.pkl
-# backend/app/data/index/*.json
+backend/app/data/index/*.faiss
+backend/app/data/index/*.pkl
+backend/app/data/index/*.json
 
 # Manuals (Ignore large PDFs except .gitkeep)
 # backend/app/data/manuals/*.pdf
