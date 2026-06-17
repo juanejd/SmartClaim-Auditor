@@ -85,6 +85,8 @@ export const MOCK_CLAIM_2: ClaimRead = {
 export const MOCK_HISTORY: ClaimSummary[] = [
   {
     claim_id: "CLM-2024-001847",
+    complaint_text:
+      "En la noche del 12 de marzo de 2024, una sobretensión eléctrica causada por un transformador defectuoso provocó daños significativos en nuestro sistema de climatización y electrodomésticos.",
     intent_label: "ELECTRICAL_FAILURE",
     status: "AUDITED",
     final_verdict: "INSPECTION_REQUIRED",
@@ -92,6 +94,8 @@ export const MOCK_HISTORY: ClaimSummary[] = [
   },
   {
     claim_id: "CLM-2024-002103",
+    complaint_text:
+      "El 28 de febrero de 2024, durante la ola de frío, se produjo una rotura de cañería en el baño del segundo piso. Los daños por agua se extendieron al cielorraso inferior.",
     intent_label: "PHYSICAL_DAMAGE",
     status: "AUDITED",
     final_verdict: "APPROVED",
@@ -99,6 +103,7 @@ export const MOCK_HISTORY: ClaimSummary[] = [
   },
   {
     claim_id: "CLM-2024-001622",
+    complaint_text: "Reclamo en procesamiento — pendiente de evaluación.",
     intent_label: "OTHER",
     status: "PROCESSING",
     final_verdict: null,

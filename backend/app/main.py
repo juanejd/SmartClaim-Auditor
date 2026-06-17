@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.claims import router as claims_router
+from app.api.clauses import router as clauses_router
+from app.api.documents import router as documents_router
 from app.core.config import ALLOWED_ORIGINS
 from app.db.database import create_all_tables
 
@@ -21,3 +23,5 @@ app.add_middleware(
 )
 
 app.include_router(claims_router)
+app.include_router(documents_router)
+app.include_router(clauses_router)

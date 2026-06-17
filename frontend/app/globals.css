@@ -38,7 +38,7 @@
   --color-secondary-foreground: #C5CDD8;
 
   --color-muted:             #1A2535;
-  --color-muted-foreground:  #5A6A7E;
+  --color-muted-foreground:  #8A9BB0;
 
   --color-accent:            #E8B84B;
   --color-accent-foreground: #0F1923;
@@ -88,7 +88,7 @@
   --secondary: #1A2535;
   --secondary-foreground: #C5CDD8;
   --muted: #1A2535;
-  --muted-foreground: #5A6A7E;
+  --muted-foreground: #8A9BB0;
   --accent: #E8B84B;
   --accent-foreground: #0F1923;
   --destructive: #C94040;

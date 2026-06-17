@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import type { ClaimRead } from "@/lib/types";
 import { getVerdictLabel, getIntentLabel } from "@/lib/labels";
@@ -170,6 +170,8 @@ export function ReasoningTrace({
     playReveal && !reduce ? Array(6).fill(false) : Array(6).fill(true),
   );
 
+  const lastStageRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (!playReveal || reduce) {
       setVisibleStages(Array(6).fill(true));
@@ -193,6 +195,18 @@ export function ReasoningTrace({
 
     return () => timers.forEach(clearTimeout);
   }, [claim.claim_id, playReveal, reduce]);
+
+  const lastVisibleIndex = visibleStages.lastIndexOf(true);
+  useEffect(() => {
+    if (lastVisibleIndex < 0 || reduce) return;
+    const t = setTimeout(() => {
+      lastStageRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }, 80);
+    return () => clearTimeout(t);
+  }, [lastVisibleIndex, reduce]);
 
   return (
     <div className="flex flex-col p-6">
@@ -383,6 +397,7 @@ export function ReasoningTrace({
           </Alert>
         )}
       </Stage>
+      <div ref={lastStageRef} aria-hidden="true" />
     </div>
   );
 }

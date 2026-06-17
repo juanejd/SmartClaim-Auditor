@@ -45,3 +45,19 @@ export const evidenceLabels = {
   citationNotFoundDetail:
     "La cita no pudo localizarse de forma exacta en los fragmentos recuperados ni en las cláusulas del contrato (puede haber sido parafraseada).",
 } as const;
+
+export const navLabels = {
+  appTitle: "SmartClaim Auditor",
+  appSubtitle: "Consola de auditoría de seguros asistida por ORION",
+  documents: "Documentos",
+  clauses: "Ver cláusulas",
+  newClaim: "Nuevo reclamo",
+  deleteClaim: "Eliminar",
+  historyHeading: "Historial de reclamos",
+  noHistory: "Aún no hay reclamos.",
+  emptyState:
+    "Envíe un reclamo para ver su traza de auditoría, o seleccione uno del historial.",
+  auditTraceTitle: "Traza de razonamiento de auditoría",
+  auditTraceDescription:
+    "Cadena de evidencia paso a paso desde la clasificación hasta el veredicto final.",
+} as const;

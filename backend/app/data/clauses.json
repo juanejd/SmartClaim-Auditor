@@ -1,0 +1,499 @@
+[
+  {
+    "id": "doc-1",
+    "document": "Manual de Usuario - Refrigerador Smart Inverter ColdMax X9000",
+    "code": "MU-RF-X9000-2026",
+    "sections": [
+      {
+        "id": "doc-1-sec-1",
+        "title": "Introducción y Especificaciones Técnicas",
+        "clauses": [
+          {
+            "id": "doc-1-sec-1-cl-1",
+            "ref": "1.1",
+            "title": "Descripción General del Producto",
+            "text": "Equipo de refrigeración doméstica tipo No Frost de 480 litros (320 L en refrigerador y 160 L en congelador) con compresor con tecnología Inverter de velocidad variable y eficiencia energética A++. Cuenta con panel táctil capacitivo, iluminación LED y circulación de aire forzado multidireccional."
+          },
+          {
+            "id": "doc-1-sec-1-cl-2",
+            "ref": "1.2",
+            "title": "Especificaciones Técnicas y Componentes",
+            "text": "Voltaje nominal de 220–240 VAC a 50/60 Hz, consumo promedio de 0,85 kWh/día, carga de 78 gramos de gas ecológico R600a (isobutano) en circuito hermético, gabinete exterior de acero anticorrosivo, interior de ABS y conectividad Wi-Fi de 2,4 GHz compatible con la app SmartHome Connect."
+          }
+        ]
+      },
+      {
+        "id": "doc-1-sec-2",
+        "title": "Instalación y Requisitos de Conexión Eléctrica",
+        "clauses": [
+          {
+            "id": "doc-1-sec-2-cl-1",
+            "ref": "2.1",
+            "title": "Requisitos del Circuito Eléctrico Dedicado",
+            "text": "El equipo debe conectarse a un circuito eléctrico independiente protegido por un interruptor termomagnético acorde a la placa del producto. El tomacorriente debe ser de tres patas con conexión a tierra en perfecto estado. Se aconseja un regulador automático de voltaje (AVR) mínimo de 1000 VA en zonas con fluctuaciones y mantener distancias de ventilación (10 cm posterior, 5 cm laterales)."
+          },
+          {
+            "id": "doc-1-sec-2-cl-2",
+            "ref": "2.2",
+            "title": "Normas de Seguridad Eléctrica y Puesta a Tierra",
+            "text": "Queda prohibido expresamente el uso de adaptadores múltiples, extensiones de calibre insuficiente o fichas 'ladrón'. Se exige un interruptor diferencial de 30 mA en el tablero de la vivienda. La ausencia de tierra o instalaciones deficientes incrementa la probabilidad de daños en el módulo de control Inverter, lo cual afectará la evaluación de la garantía."
+          }
+        ]
+      },
+      {
+        "id": "doc-1-sec-3",
+        "title": "Operación, Panel de Control y Funciones Inteligentes",
+        "clauses": [
+          {
+            "id": "doc-1-sec-3-cl-1",
+            "ref": "3.1",
+            "title": "Configuración de Temperatura y Modos de Funcionamiento",
+            "text": "Control de temperaturas con rango de 1 °C a 7 °C para refrigerador y −16 °C a −24 °C para congelador. Incluye modos Estándar, Eco, Vacaciones y Turbo Frío (este último opera a máxima frecuencia hasta por 6 horas)."
+          },
+          {
+            "id": "doc-1-sec-3-cl-2",
+            "ref": "3.2",
+            "title": "Conectividad SmartHome y Actualizaciones de Firmware",
+            "text": "El equipo incluye conectividad SmartHome para gestión digital, incluyendo actualizaciones de firmware que optimizan el desempeño y permiten el monitoreo remoto a través de la app SmartHome Connect."
+          }
+        ]
+      },
+      {
+        "id": "doc-1-sec-4",
+        "title": "Mantenimiento, Limpieza y Cuidados Generales",
+        "clauses": [
+          {
+            "id": "doc-1-sec-4-cl-1",
+            "ref": "4.1",
+            "title": "Limpieza del Gabinete, Interior y Juntas",
+            "text": "Se deben seguir las normas técnicas de aseo básico para la limpieza del gabinete exterior, el interior y las juntas de goma, usando productos no agresivos que no dañen las superficies de ABS ni degraden los sellos."
+          },
+          {
+            "id": "doc-1-sec-4-cl-2",
+            "ref": "4.2",
+            "title": "Mantenimiento del Sistema de Refrigeración",
+            "text": "Es necesaria la limpieza periódica de las rejillas de ventilación del condensador para evitar la acumulación de suciedad por periodos prolongados, lo que podría reducir la eficiencia del sistema de refrigeración."
+          }
+        ]
+      },
+      {
+        "id": "doc-1-sec-5",
+        "title": "Garantía del Fabricante y Condiciones de Cobertura",
+        "clauses": [
+          {
+            "id": "doc-1-sec-5-cl-1",
+            "ref": "5.1",
+            "title": "Alcance y Plazos de la Garantía Limitada",
+            "text": "El fabricante establece los términos y plazos de la garantía limitada, cubriendo fallas de fabricación en materiales y mano de obra bajo condiciones normales de uso, conforme a las instrucciones del manual."
+          },
+          {
+            "id": "doc-1-sec-5-cl-2",
+            "ref": "5.2",
+            "title": "Exclusiones de Garantía por Fallas Eléctricas",
+            "text": "Quedan excluidas de la garantía las fallas originadas por anomalías eléctricas domiciliarias, tales como sobretensiones, caídas de tensión, instalaciones sin tierra adecuada o incumplimiento de los requisitos eléctricos establecidos en la sección 2 de este manual."
+          },
+          {
+            "id": "doc-1-sec-5-cl-3",
+            "ref": "5.3",
+            "title": "Exclusiones de Garantía por Errores de Operación",
+            "text": "Quedan excluidas del amparo de garantía las fallas causadas por: uso de transformadores de voltaje no certificados; limpieza con productos químicos prohibidos (cloro concentrado, amoníaco o solventes que degraden plásticos y juntas); instalación en espacios exteriores o expuestos a la intemperie fuera del rango de 10 °C a 43 °C; intervención por personal no autorizado; y obstrucción prolongada de las rejillas del condensador. El diagnóstico del servicio autorizado es vinculante para reclamos posteriores ante aseguradoras."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "doc-2",
+    "document": "Póliza de Seguro de Hogar Premium 2026",
+    "code": "HOG-PREM-2026",
+    "sections": [
+      {
+        "id": "doc-2-sec-1",
+        "title": "Definiciones y Glosario de Términos",
+        "clauses": [
+          {
+            "id": "doc-2-sec-1-cl-1",
+            "ref": "Cláusula 1",
+            "title": "Definiciones Generales",
+            "text": "Define legalmente los conceptos de: Asegurado; Siniestro (evento súbito, accidental e imprevisto); Bienes Muebles del Hogar (objetos de uso doméstico, electrodomésticos, equipos electrónicos propiedad del asegurado o convivientes); Estructura o Continente (edificación, cimientos, muros, techos, instalaciones empotradas); Derrumbe (desplome súbito ajeno a la falta de mantenimiento); Daño Físico Accidental (alteración externa como caídas, golpes o derrames); y Vicio Propio (defecto inherente de calidad del bien, excluido del seguro)."
+          }
+        ]
+      },
+      {
+        "id": "doc-2-sec-2",
+        "title": "Objeto del Contrato y Bienes Asegurados",
+        "clauses": [
+          {
+            "id": "doc-2-sec-2-cl-1",
+            "ref": "Cláusula 2",
+            "title": "Objeto del Contrato y Bienes Asegurados",
+            "text": "La aseguradora se obliga a indemnizar los daños materiales directos que sufran los bienes declarados en el domicilio detallado durante la vigencia anual. Los bienes pueden comprender la Estructura, los Bienes Muebles o los Objetos de Valor Especial (joyas, arte, que requieren tasación previa y anexo expreso). La suma asegurada actúa como el límite máximo de responsabilidad por siniestro y anualidad."
+          }
+        ]
+      },
+      {
+        "id": "doc-2-sec-3",
+        "title": "Coberturas Incluidas en la Póliza",
+        "clauses": [
+          {
+            "id": "doc-2-sec-3-cl-1",
+            "ref": "Cláusula 3.1",
+            "title": "Incendio, Rayo y Explosión",
+            "text": "Cubre daños por fuego, calor, humo y gases, siempre que no sea provocado intencionalmente. Incluye daños a electrodomésticos y electrónicos conectados a la red por impacto de rayo sobre la estructura o instalaciones fijas, siempre que deje daño físico visible y documentable. Cubre explosión de calderas, calefones, garrafas o gas natural habilitado."
+          },
+          {
+            "id": "doc-2-sec-3-cl-2",
+            "ref": "Cláusula 3.2",
+            "title": "Derrumbe Total o Parcial de la Estructura",
+            "text": "Ampara el desplome súbito y accidental de muros, techos o entrepisos, siempre que no sea consecuencia de falta de mantenimiento estructural."
+          },
+          {
+            "id": "doc-2-sec-3-cl-3",
+            "ref": "Cláusula 3.3",
+            "title": "Robo con Efracción y Daños por Hurto",
+            "text": "Protección ante desapoderamiento violento o daños producidos por intento de hurto debidamente documentado."
+          }
+        ]
+      },
+      {
+        "id": "doc-2-sec-4",
+        "title": "Exclusiones Generales de la Póliza",
+        "clauses": [
+          {
+            "id": "doc-2-sec-4-cl-1",
+            "ref": "Cláusula 4.1",
+            "title": "Daños Ocasionados por Animales Domésticos o de Compañía",
+            "text": "Quedan excluidas de la cobertura las afectaciones directas causadas por mascotas o animales domésticos del asegurado o convivientes."
+          },
+          {
+            "id": "doc-2-sec-4-cl-2",
+            "ref": "Cláusula 4.2",
+            "title": "Daños por Golpes, Caídas y Manipulación Indebida de Bienes Muebles",
+            "text": "Se excluyen los daños derivados de negligencias domésticas en el traslado, manipulación o uso incorrecto de objetos muebles."
+          },
+          {
+            "id": "doc-2-sec-4-cl-3",
+            "ref": "Cláusula 4.3",
+            "title": "Derrumbes y Desprendimientos por Falta de Mantenimiento Estructural",
+            "text": "Se excluyen los daños derivados de la degradación paulatina o desatención edilicia del inmueble asegurado."
+          },
+          {
+            "id": "doc-2-sec-4-cl-4",
+            "ref": "Cláusula 4.4",
+            "title": "Exclusiones Adicionales de Carácter General",
+            "text": "Entre las exclusiones adicionales se estipulan limitaciones de lucro cesante y otras restricciones generales aplicables a todas las coberturas de la póliza."
+          }
+        ]
+      },
+      {
+        "id": "doc-2-sec-5",
+        "title": "Procedimiento de Denuncia y Liquidación de Siniestros",
+        "clauses": [
+          {
+            "id": "doc-2-sec-5-cl-1",
+            "ref": "Cláusula 5",
+            "title": "Procedimiento de Denuncia y Liquidación",
+            "text": "El Asegurado debe denunciar el siniestro en un plazo máximo de tres (3) días corridos desde que tomó conocimiento del hecho, detallando tiempo, lugar, modo y una estimación preliminar de daños. La omisión da derecho a rechazo salvo caso fortuito o fuerza mayor. Tras la denuncia, la compañía puede enviar un liquidador/perito tasador independiente para registrar fotográficamente el siniestro y elaborar el informe técnico base para la indemnización o el rechazo."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "doc-3",
+    "document": "Manual de Usuario - Lavadora de Carga Frontal AquaTech Pro 12kg",
+    "code": "MU-LV-AQP12-2026",
+    "sections": [
+      {
+        "id": "doc-3-sec-1",
+        "title": "Características Técnicas y Contenido del Embalaje",
+        "clauses": [
+          {
+            "id": "doc-3-sec-1-cl-1",
+            "ref": "Sección 1",
+            "title": "Características Técnicas y Contenido del Embalaje",
+            "text": "Equipo de uso doméstico intensivo de 12 kg de capacidad con motor Inverter Direct Drive, tambor de acero inoxidable antibacterial, 16 programas (incluyendo lavado rápido, vapor, higienización a 90 °C), centrifugado a 1400 RPM y eficiencia A+++. El embalaje incluye mangueras, llaves, niveladores y tornillos de transporte."
+          }
+        ]
+      },
+      {
+        "id": "doc-3-sec-2",
+        "title": "Instalación, Conexión Hidráulica y Eléctrica",
+        "clauses": [
+          {
+            "id": "doc-3-sec-2-cl-1",
+            "ref": "2.1",
+            "title": "Requisitos de Conexión Eléctrica",
+            "text": "Operación fija en 220–240 VAC a 50 Hz, requiriendo tomacorriente a tierra protegido por interruptor termomagnético mínimo de 16 A y diferencial de 30 mA. Conectar el equipo a redes de 110–127 V sin transformador elevador certificado (>2200 W) causará daños irreversibles en el motor, resistencia y placa de control, anulando la garantía. Igualmente, conectar un equipo de 110 V a 220 V generará daño inmediato por sobretensión."
+          },
+          {
+            "id": "doc-3-sec-2-cl-2",
+            "ref": "2.2",
+            "title": "Conexión de Agua y Desagüe",
+            "text": "Se requiere llave de paso de agua fría de 3/4 de pulgada, presión entre 0,1 y 1 MPa, altura de desagüe entre 60 y 100 cm. Es obligatorio retirar los cuatro tornillos de transporte posteriores antes del primer uso; su permanencia genera vibraciones extremas destructivas en la suspensión, lo cual anula la garantía."
+          }
+        ]
+      },
+      {
+        "id": "doc-3-sec-3",
+        "title": "Programas de Lavado y Uso Correcto del Equipo",
+        "clauses": [
+          {
+            "id": "doc-3-sec-3-cl-1",
+            "ref": "3.1",
+            "title": "Selección de Programas y Carga Máxima",
+            "text": "Se restringe el peso máximo según el tejido: 12 kg algodón, 4 kg delicada, 2 kg lavado a mano, 1 kg bebé. La sobrecarga desequilibra el tambor y puede generar fallas mecánicas."
+          },
+          {
+            "id": "doc-3-sec-3-cl-2",
+            "ref": "3.2",
+            "title": "Dosificación de Detergentes y Aditivos",
+            "text": "Se deben seguir las pautas del fabricante para el uso correcto de detergentes y aditivos de lavado, usando únicamente productos compatibles con lavadoras de carga frontal de alta eficiencia."
+          }
+        ]
+      },
+      {
+        "id": "doc-3-sec-4",
+        "title": "Mantenimiento, Limpieza y Productos Permitidos",
+        "clauses": [
+          {
+            "id": "doc-3-sec-4-cl-1",
+            "ref": "4.1",
+            "title": "Limpieza del Tambor, Goma de Puerta y Dispensador",
+            "text": "Se deben aplicar rutinas de higiene preventiva sobre el tambor, la junta de goma de la puerta y el dispensador de detergente para evitar acumulación de residuos y proliferación de gérmenes."
+          },
+          {
+            "id": "doc-3-sec-4-cl-2",
+            "ref": "4.2",
+            "title": "Productos Químicos Prohibidos",
+            "text": "Están prohibidas las sustancias que corroen o dañan los componentes internos del equipo, tales como solventes fuertes, blanqueadores concentrados o productos no aptos para lavadoras automáticas de alta eficiencia."
+          }
+        ]
+      },
+      {
+        "id": "doc-3-sec-5",
+        "title": "Garantía del Fabricante y Exclusiones",
+        "clauses": [
+          {
+            "id": "doc-3-sec-5-cl-1",
+            "ref": "5.1",
+            "title": "Cobertura General de la Garantía",
+            "text": "La garantía ampara fallas de fábrica en materiales y mano de obra bajo condiciones normales de uso, conforme a las instrucciones del manual."
+          },
+          {
+            "id": "doc-3-sec-5-cl-2",
+            "ref": "5.2",
+            "title": "Exclusión por Tensión de Alimentación Incorrecta",
+            "text": "Quedan excluidas de la garantía las fallas derivadas de la conexión del equipo a voltajes fuera de la norma establecida en la sección 2.1 de este manual."
+          },
+          {
+            "id": "doc-3-sec-5-cl-3",
+            "ref": "5.3",
+            "title": "Exclusión por Uso de Productos Químicos No Autorizados",
+            "text": "Quedan excluidas las fallas comprobadas mediante peritaje que evidencie corrosión anómala, decoloración química, fragilización de gomas o plásticos, o presencia de residuos químicos incompatibles con detergentes estándar o corrosión perforante del tambor."
+          },
+          {
+            "id": "doc-3-sec-5-cl-4",
+            "ref": "5.4",
+            "title": "Exclusión por Daños Físicos y Mal Manejo del Equipo",
+            "text": "Se excluyen explícitamente: abolladuras; fisuras en panel; rotura del vidrio de la puerta por impacto; daños por no retirar los tornillos de transporte; introducción de objetos extraños (monedas, clips, broches, calzado de suela dura) que perforen el tambor o ataquen la bomba de desagüe; y daños por mascotas (mordeduras de mangueras o cables). Todos los costos asociados correrán por cuenta del usuario."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "doc-4",
+    "document": "Póliza de Seguro Integral para Equipos Electrónicos y Electrodomésticos TecnoProtect 360",
+    "code": "TEC-360-2026",
+    "sections": [
+      {
+        "id": "doc-4-sec-1",
+        "title": "Definiciones Generales",
+        "clauses": [
+          {
+            "id": "doc-4-sec-1-cl-1",
+            "ref": "Cláusula 1",
+            "title": "Definiciones Generales",
+            "text": "Establece las definiciones contractuales para: Equipo Asegurado (individualizado por marca, modelo, serie, fecha de compra y dirección de riesgo); Falla Eléctrica (avería interna por anomalías súbitas de la red, como picos o descargas); Pico de Tensión (aumento momentáneo del voltaje inferior a 1 segundo); Vicio Oculto (defecto de diseño o materiales de origen no detectable al momento de la compra); y Dispositivo de Protección Eléctrica Homologado (estabilizador, AVR, supresor de picos o UPS certificado con capacidad igual o superior al equipo)."
+          }
+        ]
+      },
+      {
+        "id": "doc-4-sec-2",
+        "title": "Riesgos Cubiertos",
+        "clauses": [
+          {
+            "id": "doc-4-sec-2-cl-1",
+            "ref": "Cláusula 2.1",
+            "title": "Falla Eléctrica por Picos de Tensión y Descargas Atmosféricas",
+            "text": "La aseguradora promete indemnizar los daños materiales bajo tres condiciones estrictas: (i) el equipo debe estar conectado a través de un Dispositivo de Protección Eléctrica Homologado; (ii) el domicilio debe poseer puesta a tierra efectiva y disyuntor funcional; (iii) el siniestro debe denunciarse en plazo. Si el protector homologado se destruye salvando el equipo, su reposición es indemnizable si se conserva para peritaje."
+          },
+          {
+            "id": "doc-4-sec-2-cl-2",
+            "ref": "Cláusula 2.2",
+            "title": "Cobertura por Vicios Ocultos de Fabricación",
+            "text": "Cubre fallas prematuras de componentes internos (placas, fuentes, compresores, motores, pantallas) manifestadas sin causa externa, operando de forma subsidiaria y extendida una vez vencida la garantía original de fábrica."
+          }
+        ]
+      },
+      {
+        "id": "doc-4-sec-3",
+        "title": "Garantía Financiera Extendida",
+        "clauses": [
+          {
+            "id": "doc-4-sec-3-cl-1",
+            "ref": "Cláusula 3.1",
+            "title": "Derecho de Arrepentimiento y Plazo de Retracto",
+            "text": "Para compras a distancia o canales electrónicos, se otorga un plazo de diez (10) días corridos desde la recepción del producto o firma contractual para revocar la compra sin penalidad ni expresión de causa, devolviendo el equipo en las mismas condiciones de entrega."
+          },
+          {
+            "id": "doc-4-sec-3-cl-2",
+            "ref": "Cláusula 3.2",
+            "title": "Procedimiento de Reintegro de Dinero",
+            "text": "Se establecen el mecanismo y los plazos financieros para la devolución del importe al cliente tras el ejercicio del derecho de retracto, conforme a la normativa vigente."
+          },
+          {
+            "id": "doc-4-sec-3-cl-3",
+            "ref": "Cláusula 3.3",
+            "title": "Vicios Ocultos y Plazos de Reclamo Post-Garantía",
+            "text": "Define las ventanas de tiempo válidas para radicar reclamaciones por vicios ocultos tras la expiración de la garantía del fabricante."
+          }
+        ]
+      },
+      {
+        "id": "doc-4-sec-4",
+        "title": "Exclusiones Generales de la Póliza",
+        "clauses": [
+          {
+            "id": "doc-4-sec-4-cl-1",
+            "ref": "Cláusula 4.1",
+            "title": "Exclusión por Instalaciones Eléctricas Deficientes",
+            "text": "Quedan excluidas las averías causadas por infraestructuras eléctricas precarias o sin certificar que no cumplan los requisitos mínimos de seguridad eléctrica."
+          },
+          {
+            "id": "doc-4-sec-4-cl-2",
+            "ref": "Cláusula 4.2",
+            "title": "Exclusión por Cortes de Suministro Eléctrico sin Protección",
+            "text": "Se excluyen los daños sufridos por el retorno abrupto de energía cuando el equipo no contaba con los dispositivos de protección eléctrica exigidos por la póliza."
+          },
+          {
+            "id": "doc-4-sec-4-cl-3",
+            "ref": "Cláusula 4.3",
+            "title": "Otras Exclusiones Generales",
+            "text": "La póliza actúa de forma puramente subsidiaria ante siniestros ya cubiertos por la garantía del fabricante en vigor. No cubre daños que correspondan al período de cobertura del fabricante."
+          }
+        ]
+      },
+      {
+        "id": "doc-4-sec-5",
+        "title": "Procedimiento de Reclamación de Siniestros",
+        "clauses": [
+          {
+            "id": "doc-4-sec-5-cl-1",
+            "ref": "Cláusula 5",
+            "title": "Procedimiento de Reclamación de Siniestros",
+            "text": "El Asegurado debe notificar el siniestro a través de la plataforma digital dentro de las setenta y dos (72) horas de conocer el hecho, adjuntando: descripción del evento (detallando tormentas, cortes, etc.); fotos del equipo, de su conexión y del protector usado; comprobantes de compra de ambos; y constancias de la distribuidora eléctrica si las hubiere. La aseguradora realizará una inspección técnica dentro de los 5 días hábiles posteriores y emitirá resolución fundada por escrito detallando la causa de aceptación o rechazo."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "doc-5",
+    "document": "Manual de Usuario - Smart TV QLED Serie Helios 65",
+    "code": "MU-TV-HEL65-2026",
+    "sections": [
+      {
+        "id": "doc-5-sec-1",
+        "title": "Especificaciones Técnicas y Contenido del Embalaje",
+        "clauses": [
+          {
+            "id": "doc-5-sec-1-cl-1",
+            "ref": "Sección 1",
+            "title": "Especificaciones Técnicas y Contenido del Embalaje",
+            "text": "TV de 65\" QLED 4K UHD (3840×2160), 120 Hz, HDR10+, Dolby Vision, procesador IA, OS Smart, puertos HDMI 2.1, USB, Wi-Fi dual, Bluetooth 5.2, consumo de 180 W en uso y 0,5 W en standby. El embalaje incluye TV, base, control remoto, pilas, cables y manual; el soporte de pared VESA 400×400 se vende por separado."
+          }
+        ]
+      },
+      {
+        "id": "doc-5-sec-2",
+        "title": "Instalación y Conexión Eléctrica",
+        "clauses": [
+          {
+            "id": "doc-5-sec-2-cl-1",
+            "ref": "2.1",
+            "title": "Requisitos de Alimentación Eléctrica",
+            "text": "Tensión nominal de 220–240 V AC a 50/60 Hz con tierra. Se recomienda rigurosamente usar un supresor de picos certificado, pues la protección interna del TV es básica e insuficiente ante descargas de alta energía (rayos). Quedan prohibidos adaptadores, transformadores no certificados o regletas de baja calidad."
+          },
+          {
+            "id": "doc-5-sec-2-cl-2",
+            "ref": "2.2",
+            "title": "Montaje en Pared y Soporte de Mesa",
+            "text": "Se exige usar soporte VESA 400×400 mm para mínimo 35 kg en paredes sólidas (ladrillo, hormigón). Está prohibido montar el equipo directamente en placas de yeso (durlock) o estructuras de madera sin verificar su capacidad o sin anclajes especiales. La instalación debe ser realizada por personal calificado o al menos dos personas para evitar caídas."
+          }
+        ]
+      },
+      {
+        "id": "doc-5-sec-3",
+        "title": "Configuración Smart y Conectividad",
+        "clauses": [
+          {
+            "id": "doc-5-sec-3-cl-1",
+            "ref": "Sección 3",
+            "title": "Configuración Smart y Conectividad",
+            "text": "Describe el proceso de conexión Wi-Fi inicial y recomienda enfáticamente mantener actualizado el sistema operativo para obtener mejoras de seguridad, optimización de imagen y compatibilidad con apps de terceros. Permite perfiles individuales y control parental."
+          }
+        ]
+      },
+      {
+        "id": "doc-5-sec-4",
+        "title": "Cuidados, Mantenimiento y Limpieza de Pantalla",
+        "clauses": [
+          {
+            "id": "doc-5-sec-4-cl-1",
+            "ref": "4.1",
+            "title": "Limpieza del Panel y del Gabinete",
+            "text": "Se deben seguir las instrucciones específicas del fabricante para el trato de la pantalla QLED, usando paños suaves y productos no agresivos. Evitar presión excesiva sobre el panel y no usar líquidos directamente sobre la pantalla."
+          },
+          {
+            "id": "doc-5-sec-4-cl-2",
+            "ref": "4.2",
+            "title": "Condiciones Ambientales de Operación",
+            "text": "El televisor debe operarse dentro del rango de temperatura y humedad especificado para interiores, evitando entornos húmedos, polvorientos o expuestos directamente a la luz solar intensa."
+          }
+        ]
+      },
+      {
+        "id": "doc-5-sec-5",
+        "title": "Garantía del Fabricante y Exclusiones",
+        "clauses": [
+          {
+            "id": "doc-5-sec-5-cl-1",
+            "ref": "5.1",
+            "title": "Alcance General de la Garantía",
+            "text": "Define las obligaciones de cobertura directa de fábrica por fallas técnicas directas, cubriendo defectos de materiales y mano de obra bajo condiciones normales de uso."
+          },
+          {
+            "id": "doc-5-sec-5-cl-2",
+            "ref": "5.2",
+            "title": "Exclusión por Exposición a la Intemperie y Condiciones Ambientales Adversas",
+            "text": "Quedan limitados los amparos si el televisor opera en entornos húmedos, polvorientos o exteriores que superen las condiciones ambientales de operación especificadas."
+          },
+          {
+            "id": "doc-5-sec-5-cl-3",
+            "ref": "5.3",
+            "title": "Exclusión por Fallas Eléctricas de Origen Domiciliario",
+            "text": "Se excluyen las averías originadas por sobretensiones de la red, descargas atmosféricas o uso de reguladores no certificados. El servicio técnico revisará físicamente la fuente en busca de rastros de sobretensión (capacitores hinchados o reventados, fusibles fundidos con arco eléctrico, pistas carbonizadas) para denegar el servicio en caso de aplicar."
+          },
+          {
+            "id": "doc-5-sec-5-cl-4",
+            "ref": "5.4",
+            "title": "Exclusión por Daño Físico - Golpes, Caídas e Instalación Indebida",
+            "text": "Se excluyen explícitamente: daños en el panel (fisuras, manchas de presión, líneas de píxeles muertos por impactos o rotura total); daños al soporte o gabinete por caídas; anclajes deficientes en pared; vuelcos en mesas inestables; y daños causados por mascotas (arañazos, mordeduras de cables o vuelcos por trepar). El servicio técnico podrá rechazar la garantía de forma inmediata ante la presencia de evidencia física evidente (fisuras radiales, deformaciones) sin requerir diagnósticos electrónicos adicionales."
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -19,7 +19,7 @@ export type ClaimStatus =
 export type ClaimRead = {
   claim_id: string;
   complaint_text: string;
-  contract_clauses: string;
+  contract_clauses?: string | null;
   status: ClaimStatus;
   intent_label: string | null;
   confidence: number | null;
@@ -43,8 +43,35 @@ export type ClaimAccepted = {
 
 export type ClaimSummary = {
   claim_id: string;
+  complaint_text: string;
   intent_label: string | null;
   status: ClaimStatus;
   final_verdict: string | null;
   received_at: string;
+};
+
+export type DocumentMeta = {
+  filename: string;
+  label: string;
+  size_bytes: number;
+};
+
+export type ClauseItem = {
+  id: string;
+  ref: string;
+  title: string;
+  text: string;
+};
+
+export type ClausesSection = {
+  id: string;
+  title: string;
+  clauses: ClauseItem[];
+};
+
+export type ClausesDoc = {
+  id: string;
+  document: string;
+  code?: string;
+  sections: ClausesSection[];
 };
