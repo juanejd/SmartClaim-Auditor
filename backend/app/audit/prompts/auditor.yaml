@@ -21,9 +21,14 @@ template: |
      the evidence above. If the draft introduces facts NOT in the evidence, correct them.
   2. Choose a final verdict (APPROVED / REJECTED / INSPECTION_REQUIRED).
   3. Write a final justification grounded only in the evidence.
-  4. Extract a verbatim citation (exact substring) from the retrieved evidence that
+  4. Extract a verbatim citation (exact substring) from the retrieved evidence OR the contract clauses that
      directly supports the verdict.
   5. Set corrections_applied to true if you rewrote or changed the draft; false
      if the draft was accepted as-is.
 
   Be concise (2-4 sentences for justification). Cite only what is in the evidence.
+
+  IMPORTANT - language: write the final justification in SPANISH (neutral, professional).
+  The final_verdict value MUST remain exactly one of the English tokens
+  APPROVED, REJECTED, or INSPECTION_REQUIRED (do not translate the verdict).
+  Keep rag_citation as a verbatim substring of the evidence - do NOT translate the citation.

@@ -213,6 +213,36 @@ def test_citation_fail_downgrades_to_inspection_required(caplog):
     )
 
 
+def test_citation_in_contract_clauses_not_downgraded():
+    """When rag_citation is verbatim in contract_clauses but absent from all
+    rag_chunks, final_verdict is preserved (not downgraded to INSPECTION_REQUIRED).
+    """
+    clause_text = "Article 7: water damage excluded from all coverage terms"
+    chunks_without_clause = ["compressor failures covered for 12 months from purchase date"]
+    # Sanity: citation must NOT be in any chunk
+    assert not any(
+        "water damage excluded" in chunk for chunk in chunks_without_clause
+    ), "Precondition failed: citation must be absent from chunks"
+
+    auditor_return = {
+        **_AUDITOR_RETURN,
+        "final_verdict": "REJECTED",
+        "rag_citation": "water damage excluded from all coverage terms",
+    }
+    with patch("app.audit.graph.node_analyst", return_value=_ANALYST_RETURN), \
+         patch("app.audit.graph.node_auditor", return_value=auditor_return):
+        result = run_audit(
+            complaint_text=_COMPLAINT,
+            contract_clauses=clause_text,
+            rag_chunks=chunks_without_clause,
+        )
+
+    assert result["final_verdict"] == "REJECTED", (
+        f"Expected 'REJECTED' (citation grounded in contract clauses); "
+        f"got {result['final_verdict']!r}"
+    )
+
+
 # ---------------------------------------------------------------------------
 # Graph structure test
 # ---------------------------------------------------------------------------

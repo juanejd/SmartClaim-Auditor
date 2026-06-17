@@ -73,13 +73,49 @@ def test_get_claim_returns_stored_claim():
     assert body["contract_clauses"] == VALID_PAYLOAD["contract_clauses"]
 
 
-def test_get_claim_excludes_rag_chunks():
-    post_response = client.post("/api/claims", json=VALID_PAYLOAD)
-    claim_id = post_response.json()["claim_id"]
+@patch("app.api.claims.retrieve")
+@patch("app.api.claims.classify")
+def test_get_claim_includes_rag_chunks(mock_classify, mock_retrieve):
+    from app.models.claim import RagChunk
+    from app.ml.classifier import ClassificationResult
 
+    mock_classify.return_value = ClassificationResult(
+        label="MECHANICAL_FAILURE", confidence=0.9, status="CLASSIFIED"
+    )
+    mock_retrieve.return_value = [
+        RagChunk(
+            text="Compressor covered 12 months.",
+            source_section="Warranty",
+            page=1,
+            score=0.95,
+        )
+    ]
+
+    with patch("app.api.claims.run_audit", return_value={
+        "complaint_text": VALID_PAYLOAD["complaint_text"],
+        "contract_clauses": VALID_PAYLOAD["contract_clauses"],
+        "rag_chunks": ["Compressor covered 12 months."],
+        "draft_verdict": "APPROVED",
+        "draft_justification": "Within warranty.",
+        "corrections_applied": False,
+        "final_verdict": "APPROVED",
+        "final_justification": "Confirmed.",
+        "rag_citation": "Compressor covered 12 months.",
+    }):
+        post_response = client.post("/api/claims", json=VALID_PAYLOAD)
+
+    claim_id = post_response.json()["claim_id"]
     get_response = client.get(f"/api/claims/{claim_id}")
     assert get_response.status_code == 200
-    assert "rag_chunks" not in get_response.json()
+    body = get_response.json()
+    assert "rag_chunks" in body
+    assert isinstance(body["rag_chunks"], list)
+    assert len(body["rag_chunks"]) == 1
+    chunk = body["rag_chunks"][0]
+    assert "text" in chunk
+    assert "source_section" in chunk
+    assert "page" in chunk
+    assert "score" in chunk
 
 
 def test_get_claim_received_at_is_utc():
@@ -111,7 +147,8 @@ def test_post_claim_classifies_and_forwards(mock_classify):
 
     get_res = client.get(f"/api/claims/{body['claim_id']}")
     saved = get_res.json()
-    assert saved["status"] == "CLASSIFIED"
+    # status may advance to AUDITED if the real audit graph runs successfully
+    assert saved["status"] in ("CLASSIFIED", "AUDITED")
     assert saved["intent_label"] == "ELECTRICAL_FAILURE"
     assert saved["confidence"] == 0.85
 
@@ -273,3 +310,64 @@ def test_post_claim_run_audit_not_called_when_low_confidence(mock_classify):
         response = client.post("/api/claims", json=VALID_PAYLOAD)
         assert response.status_code == 202
         mock_run_audit.assert_not_called()
+
+
+# ---------------------------------------------------------------------------
+# GET /api/claims — list endpoint
+# ---------------------------------------------------------------------------
+
+@patch("app.api.claims.classify")
+def test_list_claims_returns_all_claims_newest_first(mock_classify):
+    from app.ml.classifier import ClassificationResult
+
+    mock_classify.return_value = ClassificationResult(
+        label="OTHER", confidence=0.55, status="LOW_CONFIDENCE"
+    )
+
+    # Submit two claims
+    first = client.post("/api/claims", json=VALID_PAYLOAD)
+    second = client.post("/api/claims", json=VALID_PAYLOAD)
+    assert first.status_code == 202
+    assert second.status_code == 202
+
+    first_id = first.json()["claim_id"]
+    second_id = second.json()["claim_id"]
+
+    response = client.get("/api/claims")
+    assert response.status_code == 200
+    body = response.json()
+    assert isinstance(body, list)
+    assert len(body) >= 2
+
+    ids_in_response = [item["claim_id"] for item in body]
+    assert second_id in ids_in_response
+    assert first_id in ids_in_response
+
+    # Newest-first: second claim must appear before first claim
+    assert ids_in_response.index(second_id) < ids_in_response.index(first_id)
+
+
+@patch("app.api.claims.classify")
+def test_list_claims_summary_fields(mock_classify):
+    from app.ml.classifier import ClassificationResult
+
+    mock_classify.return_value = ClassificationResult(
+        label="OTHER", confidence=0.55, status="LOW_CONFIDENCE"
+    )
+
+    post_response = client.post("/api/claims", json=VALID_PAYLOAD)
+    assert post_response.status_code == 202
+    claim_id = post_response.json()["claim_id"]
+
+    response = client.get("/api/claims")
+    assert response.status_code == 200
+    body = response.json()
+
+    matching = [item for item in body if item["claim_id"] == claim_id]
+    assert len(matching) == 1
+    summary = matching[0]
+    assert "claim_id" in summary
+    assert "intent_label" in summary
+    assert "status" in summary
+    assert "final_verdict" in summary
+    assert "received_at" in summary

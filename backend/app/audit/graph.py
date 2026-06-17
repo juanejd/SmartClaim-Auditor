@@ -57,7 +57,8 @@ def run_audit(
     result: dict = dict(_get_graph().invoke(init))
 
     citation = result.get("rag_citation", "")
-    if not _verify_citation(citation, rag_chunks):
+    sources = [*rag_chunks, contract_clauses]
+    if not _verify_citation(citation, sources):
         _CITATION_LOG_MAX = 40
         citation_preview = (
             citation[:_CITATION_LOG_MAX] + "..."
@@ -66,7 +67,7 @@ def run_audit(
         )
         logger.warning(
             "audit faithfulness failure: rag_citation (first %d chars: %r) "
-            "is not verbatim in any chunk; downgrading final_verdict to INSPECTION_REQUIRED",
+            "is not verbatim in the evidence or contract clauses; downgrading final_verdict to INSPECTION_REQUIRED",
             _CITATION_LOG_MAX,
             citation_preview,
         )

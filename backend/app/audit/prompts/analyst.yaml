@@ -19,3 +19,7 @@ template: |
 
   Provide a concise justification (2-4 sentences) that explicitly references
   the contract clauses and retrieved evidence. Do not add new information.
+
+  IMPORTANT - language: write the justification in SPANISH (neutral, professional).
+  The draft_verdict value MUST remain exactly one of the English tokens
+  APPROVED, REJECTED, or INSPECTION_REQUIRED (do not translate the verdict).

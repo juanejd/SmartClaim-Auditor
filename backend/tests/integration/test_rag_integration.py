@@ -33,12 +33,16 @@ def test_rag_integration_with_classified_claim(mock_retrieve, mock_classify):
 
     get_res = client.get(f"/api/claims/{claim_id}")
     assert get_res.status_code == 200
-    assert "rag_chunks" not in get_res.json()
-    assert get_res.json()["status"] == "CLASSIFIED"
+    body = get_res.json()
+    # status may advance to AUDITED when the real audit graph runs
+    assert body["status"] in ("CLASSIFIED", "AUDITED")
+    assert "rag_chunks" in body
+    assert isinstance(body["rag_chunks"], list)
+    assert len(body["rag_chunks"]) == 2
 
     with Session(engine) as session:
         saved = session.get(Claim, claim_id)
-    assert saved.status == "CLASSIFIED"
+    assert saved.status in ("CLASSIFIED", "AUDITED")
     assert saved.rag_chunks is not None
     assert len(saved.rag_chunks) == 2
     assert saved.rag_chunks[0]["text"] == "Chunk 1"

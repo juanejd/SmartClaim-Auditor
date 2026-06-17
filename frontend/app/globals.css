@@ -1,26 +1,132 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource/dm-serif-display/400.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* shadcn base layer */
+@layer base {
+  *, *::before, *::after {
+    border-color: var(--border);
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
   }
 }
 
+@theme inline {
+  /* ── Forensic Console Palette ── */
+  --color-background:        #0F1923;
+  --color-foreground:        #C5CDD8;
+
+  --color-card:              #161F2C;
+  --color-card-foreground:   #C5CDD8;
+
+  --color-popover:           #1A2535;
+  --color-popover-foreground: #C5CDD8;
+
+  --color-primary:           #E8B84B;
+  --color-primary-foreground: #0F1923;
+
+  --color-secondary:         #1A2535;
+  --color-secondary-foreground: #C5CDD8;
+
+  --color-muted:             #1A2535;
+  --color-muted-foreground:  #5A6A7E;
+
+  --color-accent:            #E8B84B;
+  --color-accent-foreground: #0F1923;
+
+  --color-destructive:       #C94040;
+  --color-destructive-foreground: #F5E8E8;
+
+  --color-border:            #1E2D40;
+  --color-input:             #1A2535;
+  --color-ring:              #E8B84B;
+
+  /* Verdict semantic tokens */
+  --color-verdict-approved:  #3DAA73;
+  --color-verdict-rejected:  #C94040;
+  --color-verdict-inspect:   #D4874A;
+  --color-verdict-neutral:   #5A6A7E;
+
+  /* Evidence console surface */
+  --color-evidence-surface:  #101720;
+  --color-highlight-amber:   #E8B84B;
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+  --font-display: "DM Serif Display", Georgia, serif;
+
+  /* Radius */
+  --radius: 0.375rem;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #0F1923;
+  --foreground: #C5CDD8;
+  --card: #161F2C;
+  --card-foreground: #C5CDD8;
+  --popover: #1A2535;
+  --popover-foreground: #C5CDD8;
+  --primary: #E8B84B;
+  --primary-foreground: #0F1923;
+  --secondary: #1A2535;
+  --secondary-foreground: #C5CDD8;
+  --muted: #1A2535;
+  --muted-foreground: #5A6A7E;
+  --accent: #E8B84B;
+  --accent-foreground: #0F1923;
+  --destructive: #C94040;
+  --border: #1E2D40;
+  --input: #1A2535;
+  --ring: #E8B84B;
+  --sidebar: #161F2C;
+  --sidebar-foreground: #C5CDD8;
+  --sidebar-primary: #E8B84B;
+  --sidebar-primary-foreground: #0F1923;
+  --sidebar-accent: #1A2535;
+  --sidebar-accent-foreground: #C5CDD8;
+  --sidebar-border: #1E2D40;
+  --sidebar-ring: #E8B84B;
+  --chart-1: #E8B84B;
+  --chart-2: #3DAA73;
+  --chart-3: #D4874A;
+  --chart-4: #C94040;
+  --chart-5: #5A6A7E;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Highlight utility: marks verbatim citation within evidence text */
+.evidence-highlight {
+  background-color: rgba(232, 184, 75, 0.25);
+  border-bottom: 2px solid #E8B84B;
+  border-radius: 2px;
+  padding: 0 2px;
+  color: #F0D080;
+}
+
+/* Display font utility */
+.font-display {
+  font-family: var(--font-display);
 }

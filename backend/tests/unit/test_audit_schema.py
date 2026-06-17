@@ -73,6 +73,6 @@ def test_claim_read_draft_verdict_and_final_verdict_are_distinct():
     assert claim.final_verdict == "INSPECTION_REQUIRED"
 
 
-def test_claim_read_excludes_rag_chunks():
-    """rag_chunks must never appear in ClaimRead — internal DB column only."""
-    assert "rag_chunks" not in ClaimRead.model_fields
+def test_claim_read_includes_rag_chunks():
+    """rag_chunks is now exposed in ClaimRead so the frontend can display evidence."""
+    assert "rag_chunks" in ClaimRead.model_fields

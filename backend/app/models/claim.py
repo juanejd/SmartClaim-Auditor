@@ -69,11 +69,21 @@ class ClaimRead(_ReceivedAtMixin):
     status: str
     intent_label: str | None
     confidence: float | None
+    rag_chunks: list[RagChunk] | None = None
     draft_verdict: str | None = None
     draft_justification: str | None = None
     corrections_applied: bool | None = None
     final_verdict: str | None = None
     final_justification: str | None = None
     rag_citation: str | None = None
+
+    model_config = {"from_attributes": True}
+
+
+class ClaimSummary(_ReceivedAtMixin):
+    claim_id: str
+    intent_label: str | None
+    status: str
+    final_verdict: str | None
 
     model_config = {"from_attributes": True}

@@ -3,7 +3,9 @@ from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException, status
 
-from app.models.claim import ClaimAccepted, ClaimRead, Claim, CreateClaim
+from sqlmodel import select
+
+from app.models.claim import ClaimAccepted, ClaimRead, ClaimSummary, Claim, CreateClaim
 
 from app.db.database import SessionDep
 from app.ml.classifier import classify
@@ -73,6 +75,17 @@ def submit_claim(claim_request: CreateClaim, session: SessionDep) -> ClaimAccept
         status=classification.status,
         received_at=received_at,
     )
+
+
+@router.get(
+    "",
+    status_code=status.HTTP_200_OK,
+    response_model=list[ClaimSummary],
+)
+def list_claims(session: SessionDep) -> list[ClaimSummary]:
+    statement = select(Claim).order_by(Claim.received_at.desc())
+    claims = session.exec(statement).all()
+    return list(claims)
 
 
 @router.get(
