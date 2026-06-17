@@ -40,7 +40,7 @@ def _verify_citation(citation: str, chunks: list[str]) -> bool:
 def run_audit(
     *,
     complaint_text: str,
-    contract_clauses: str,
+    contract_clauses: str | None,
     rag_chunks: list[str],
 ) -> dict:
     init: AuditState = {
@@ -57,7 +57,7 @@ def run_audit(
     result: dict = dict(_get_graph().invoke(init))
 
     citation = result.get("rag_citation", "")
-    sources = [*rag_chunks, contract_clauses]
+    sources = [*rag_chunks, contract_clauses or ""]
     if not _verify_citation(citation, sources):
         _CITATION_LOG_MAX = 40
         citation_preview = (

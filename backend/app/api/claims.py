@@ -101,3 +101,18 @@ def get_claim(claim_id: str, session: SessionDep) -> ClaimRead:
             status_code=status.HTTP_404_NOT_FOUND, detail="claim not found"
         )
     return claim
+
+
+@router.delete(
+    "/{claim_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_claim(claim_id: str, session: SessionDep) -> None:
+    claim = session.get(Claim, claim_id)
+
+    if not claim:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="claim not found"
+        )
+    session.delete(claim)
+    session.commit()

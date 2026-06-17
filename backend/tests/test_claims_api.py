@@ -7,9 +7,9 @@ from unittest.mock import patch
 
 client = TestClient(app)
 
+# Task 1.1: VALID_PAYLOAD no longer requires contract_clauses
 VALID_PAYLOAD = {
     "complaint_text": "The refrigerator compressor stopped working after only 3 months.",
-    "contract_clauses": "Clause 5: All major components are warranted for 12 months.",
 }
 
 
@@ -40,9 +40,27 @@ def test_post_claim_returns_received_at():
     assert "received_at" in body
 
 
+# Task 1.1: POST WITHOUT contract_clauses must now succeed with 202
+def test_post_claim_without_contract_clauses_returns_202():
+    payload = {"complaint_text": "The refrigerator compressor stopped working after only 3 months."}
+    response = client.post("/api/claims", json=payload)
+    assert response.status_code == 202
+
+
+def test_post_claim_without_contract_clauses_returns_verdict():
+    """A POST without contract_clauses must still complete and have a recognizable status."""
+    payload = {"complaint_text": "The refrigerator compressor stopped working after only 3 months."}
+    response = client.post("/api/claims", json=payload)
+    assert response.status_code == 202
+    body = response.json()
+    assert "status" in body
+    assert body["status"] != ""
+
+
 # POST /api/claims — validation errors (expect 422)
 def test_post_claim_missing_complaint_text_returns_422():
-    payload = {"contract_clauses": VALID_PAYLOAD["contract_clauses"]}
+    # contract_clauses alone is not enough; complaint_text is still required
+    payload = {"contract_clauses": "Clause 5: All major components are warranted for 12 months."}
     response = client.post("/api/claims", json=payload)
     assert response.status_code == 422
 
@@ -62,15 +80,19 @@ def test_post_claim_too_short_complaint_text_returns_422():
 
 # GET /api/claims/{claim_id}
 def test_get_claim_returns_stored_claim():
-    post_response = client.post("/api/claims", json=VALID_PAYLOAD)
+    payload = {
+        "complaint_text": "The refrigerator compressor stopped working after only 3 months.",
+        "contract_clauses": "Clause 5: All major components are warranted for 12 months.",
+    }
+    post_response = client.post("/api/claims", json=payload)
     claim_id = post_response.json()["claim_id"]
 
     get_response = client.get(f"/api/claims/{claim_id}")
     assert get_response.status_code == 200
     body = get_response.json()
     assert body["claim_id"] == claim_id
-    assert body["complaint_text"] == VALID_PAYLOAD["complaint_text"]
-    assert body["contract_clauses"] == VALID_PAYLOAD["contract_clauses"]
+    assert body["complaint_text"] == payload["complaint_text"]
+    assert body["contract_clauses"] == payload["contract_clauses"]
 
 
 @patch("app.api.claims.retrieve")
@@ -93,7 +115,7 @@ def test_get_claim_includes_rag_chunks(mock_classify, mock_retrieve):
 
     with patch("app.api.claims.run_audit", return_value={
         "complaint_text": VALID_PAYLOAD["complaint_text"],
-        "contract_clauses": VALID_PAYLOAD["contract_clauses"],
+        "contract_clauses": None,
         "rag_chunks": ["Compressor covered 12 months."],
         "draft_verdict": "APPROVED",
         "draft_justification": "Within warranty.",
@@ -170,7 +192,7 @@ def test_post_claim_halts_on_low_confidence(mock_classify):
 
 _AUDIT_RESULT = {
     "complaint_text": VALID_PAYLOAD["complaint_text"],
-    "contract_clauses": VALID_PAYLOAD["contract_clauses"],
+    "contract_clauses": None,
     "rag_chunks": ["The compressor is covered for 12 months under clause 5."],
     "draft_verdict": "APPROVED",
     "draft_justification": "Compressor failure within warranty period.",
@@ -208,7 +230,8 @@ def test_post_claim_invokes_run_audit_when_classified(
     mock_run_audit.assert_called_once()
     call_kwargs = mock_run_audit.call_args.kwargs
     assert call_kwargs["complaint_text"] == VALID_PAYLOAD["complaint_text"]
-    assert call_kwargs["contract_clauses"] == VALID_PAYLOAD["contract_clauses"]
+    # contract_clauses is now optional; None is acceptable
+    assert "contract_clauses" in call_kwargs
     assert isinstance(call_kwargs["rag_chunks"], list)
     assert len(call_kwargs["rag_chunks"]) == 1
     assert isinstance(call_kwargs["rag_chunks"][0], str)
@@ -371,3 +394,46 @@ def test_list_claims_summary_fields(mock_classify):
     assert "status" in summary
     assert "final_verdict" in summary
     assert "received_at" in summary
+    # Task 1.1: complaint_text must now be present in the summary
+    assert "complaint_text" in summary
+    assert summary["complaint_text"] == VALID_PAYLOAD["complaint_text"]
+
+
+# ---------------------------------------------------------------------------
+# Task 1.2: DELETE /api/claims/{id} tests
+# ---------------------------------------------------------------------------
+
+@patch("app.api.claims.classify")
+def test_delete_existing_claim_returns_204(mock_classify):
+    mock_classify.return_value = ClassificationResult(
+        label="OTHER", confidence=0.55, status="LOW_CONFIDENCE"
+    )
+    post_response = client.post("/api/claims", json=VALID_PAYLOAD)
+    assert post_response.status_code == 202
+    claim_id = post_response.json()["claim_id"]
+
+    delete_response = client.delete(f"/api/claims/{claim_id}")
+    assert delete_response.status_code == 204
+
+
+@patch("app.api.claims.classify")
+def test_delete_claim_removes_from_db(mock_classify):
+    mock_classify.return_value = ClassificationResult(
+        label="OTHER", confidence=0.55, status="LOW_CONFIDENCE"
+    )
+    post_response = client.post("/api/claims", json=VALID_PAYLOAD)
+    assert post_response.status_code == 202
+    claim_id = post_response.json()["claim_id"]
+
+    # Delete the claim
+    delete_response = client.delete(f"/api/claims/{claim_id}")
+    assert delete_response.status_code == 204
+
+    # Subsequent GET must return 404
+    get_response = client.get(f"/api/claims/{claim_id}")
+    assert get_response.status_code == 404
+
+
+def test_delete_nonexistent_claim_returns_404():
+    response = client.delete("/api/claims/00000000-0000-0000-0000-000000000000")
+    assert response.status_code == 404

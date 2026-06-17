@@ -27,7 +27,7 @@ class _ReceivedAtMixin(BaseModel):
 
 class ClaimBase(SQLModel):
     complaint_text: str = Field(min_length=COMPLAINT_TEXT_MIN_LENGTH)
-    contract_clauses: str = Field(min_length=1)
+    contract_clauses: str | None = Field(default=None)
 
 
 class ClaimAccepted(_ReceivedAtMixin):
@@ -65,7 +65,7 @@ class Claim(ClaimBase, table=True):
 class ClaimRead(_ReceivedAtMixin):
     claim_id: str
     complaint_text: str
-    contract_clauses: str
+    contract_clauses: str | None = None
     status: str
     intent_label: str | None
     confidence: float | None
@@ -82,6 +82,7 @@ class ClaimRead(_ReceivedAtMixin):
 
 class ClaimSummary(_ReceivedAtMixin):
     claim_id: str
+    complaint_text: str
     intent_label: str | None
     status: str
     final_verdict: str | None

@@ -10,7 +10,7 @@ CLASSIFIER_THRESHOLD: float = 0.7
 
 RAG_CHUNK_SIZE: int = 2048
 RAG_CHUNK_OVERLAP: int = 800
-RAG_TOP_K: int = 2
+RAG_TOP_K: int = 4
 EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"
 
 DATA_DIR: str = str(_APP_DIR / "data")

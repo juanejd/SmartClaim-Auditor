@@ -49,7 +49,7 @@ def node_analyst(state: AuditState) -> dict:
     prompt = _render(
         _load_prompt("analyst"),
         complaint_text=state["complaint_text"],
-        contract_clauses=state["contract_clauses"],
+        contract_clauses=state["contract_clauses"] or "(no se proporcionaron cláusulas)",
         rag_chunks=_join(state["rag_chunks"]),
     )
     out: AnalystOutput = llm.invoke(prompt)
@@ -72,7 +72,7 @@ def node_auditor(state: AuditState) -> dict:
     prompt = _render(
         _load_prompt("auditor"),
         complaint_text=state["complaint_text"],
-        contract_clauses=state["contract_clauses"],
+        contract_clauses=state["contract_clauses"] or "(no se proporcionaron cláusulas)",
         rag_chunks=_join(state["rag_chunks"]),
         draft_verdict=state["draft_verdict"],
         draft_justification=state["draft_justification"],

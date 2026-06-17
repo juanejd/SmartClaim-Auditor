@@ -7,7 +7,7 @@ Verdict = Literal["APPROVED", "REJECTED", "INSPECTION_REQUIRED"]
 
 class AuditState(TypedDict):
     complaint_text: str
-    contract_clauses: str
+    contract_clauses: str | None
     rag_chunks: list[str]
 
     draft_verdict: Verdict
