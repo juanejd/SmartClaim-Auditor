@@ -1,10 +1,14 @@
+import os
+
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 _APP_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_ORIGINS: list[str] = ["http://localhost:3000"]
+ALLOWED_ORIGINS: list[str] = os.getenv(
+    "ALLOWED_ORIGINS", "http://127.0.0.1:8000"
+).split(",")
 COMPLAINT_TEXT_MIN_LENGTH: int = 10
 CLASSIFIER_THRESHOLD: float = 0.7
 
