@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.claims import router as claims_router
 from app.api.clauses import router as clauses_router
 from app.api.documents import router as documents_router
-from app.core.config import ALLOWED_ORIGINS
+from app.core.config import settings
 from app.db.database import create_all_tables
 
 app = FastAPI(
@@ -14,9 +14,14 @@ app = FastAPI(
     lifespan=create_all_tables,
 )
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
+    allow_origins=[
+        origin.strip().rstrip("/")
+        for origin in settings.ALLOWED_ORIGINS.split(",")
+        if origin.strip()
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

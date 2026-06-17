@@ -6,9 +6,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 _APP_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_ORIGINS: list[str] = os.getenv(
-    "ALLOWED_ORIGINS", "http://127.0.0.1:8000"
-).split(",")
 COMPLAINT_TEXT_MIN_LENGTH: int = 10
 CLASSIFIER_THRESHOLD: float = 0.7
 
@@ -24,6 +21,8 @@ METADATA_PATH: str = str(_APP_DIR / "data" / "index" / "metadata.json")
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    ALLOWED_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
 
     AUDIT_LLM_PROVIDER: str = "groq"
     GROQ_MODEL: str = "llama-3.1-8b-instant"
